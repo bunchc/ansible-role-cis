@@ -136,51 +136,48 @@
       - section1.1
       - section1.1.17
       
-  - name: 1.2.1 Configure Connection to the RHN RPM repositories (Not Scored)
-    command: yum check-update
+  - name: 1.2.1 Configure Connection to the apt repositories (Not Scored)
+    command: apt-get update
     register: result
     failed_when: "result.rc == 1"
-    when: ansible_distribution == "RedHat"
+    when: ansible_distribution == "Ubuntu"
     tags:
       - notscored
       - section1.2
       - section1.2.1
       
-  - name: 1.2.2 Verify Red Hat GPG key is installed (Scored)
-    command: gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release 
-    when: ansible_distribution == "RedHat"
+  - name: 1.2.2 Verify Ubuntu GPG keys are installed (Scored)
+    command: gpg --quiet --with-fingerprint /etc/apt/trusted.gpg
+    when: ansible_distribution == "Ubuntu"
     tags:
       - scored
       - section1.2
       - section1.2.2
       
   - name: 1.2.3 Verify that gpgcheck is Globally Activated (Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/yum.conf
-      regexp=^gpgcheck=
-      line=gpgcheck=1
+    debug: msg="*** Not relevant."
     tags:
       - scored
       - section1.2
       - section1.2.3
       
-  - name: 1.2.5 Obtain software package updates with yum (Not Scored)
+  - name: 1.2.5 Obtain software package updates with apt (Not Scored)
     debug: msg="*** Check manually."
     tags:
       - notscored
       - section1.2
       - section1.2.5
       
-  - name: 1.2.6 Verify package integrity using RPM (Not Scored)
+  - name: 1.2.6 Verify package integrity using apt (Not Scored)
     debug: msg="*** Check via cron/AIDE/manually"
     tags:
       - notscored
       - section1.2
       - section1.2.6
-      
-  - name: 1.5.1 Get Absolute Path to grub.conf
-    command: readlink -f /etc/grub.conf
+
+### I think this breaks things. I need an adult.
+  - name: 1.5.1 Get Absolute Path to grub
+    command: readlink -f /etc/default/grub
     register: readlink
     changed_when: false
     always_run: yes
@@ -189,7 +186,7 @@
       - section1.5
       - section1.5.1
       
-  - name: 1.5.1 Set User/Group Owner on /etc/grub.conf (Scored)
+  - name: 1.5.1 Set User/Group Owner on /etc/default/grub (Scored)
     file: >
       path={{ readlink.stdout }}
       owner=root
@@ -199,8 +196,8 @@
       - section1.5
       - section1.5.1
       
-  - name: 1.5.2 Get Absolute Path to grub.conf
-    command: readlink -f /etc/grub.conf
+  - name: 1.5.2 Get Absolute Path to grub
+    command: readlink -f /etc/default/grub
     register: readlink
     changed_when: false
     always_run: yes
@@ -209,7 +206,7 @@
       - section1.5
       - section1.5.2
 
-  - name: 1.5.2 Set Permissions on /etc/grub.conf (Scored)
+  - name: 1.5.2 Set Permissions on /etc/default/grub (Scored)
     file: >
       path={{ readlink.stdout }}
       mode=0400
@@ -231,12 +228,10 @@
       - scored
       - section1.5
       - section1.5.4
-      
+### End of section requiring an adult
+
   - name: 1.5.5 Disable Interactive Boot (Scored)
-    lineinfile: >
-      dest=/etc/sysconfig/init
-      regexp=^PROMPT=
-      line=PROMPT=no
+    debug: msg="*** Not relevant. - Needs verification"
     tags:
       - scored
       - section1.5
@@ -287,8 +282,8 @@
 
   - name: 1.7 Use the Latest OS Release (Not Scored)
     command: >
-      cat /etc/redhat-release
-    when: ansible_distribution == "RedHat"
+      cat /etc/lsb-release
+    when: ansible_distribution == "Ubuntu"
     tags:
       - notscored
       - section1.7
