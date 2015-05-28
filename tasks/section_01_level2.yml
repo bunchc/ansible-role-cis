@@ -160,37 +160,44 @@
       - section1.3
       - section1.3.2
 
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
-    debug: msg="*** Change this to apparmor."
+  - name: 1.4.1 Enable AppArmor (Scored)
+    apt: >
+      name=apparmor-utils
+      state=present
     tags:
       - scored
       - section1.4
       - section1.4.1
 
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
-    debug: msg="*** Change this to apparmor."
+  - name: 1.4.1 Enable AppArmor (Scored)
+    command: invoke-rc.d apparmor start
+    register: result
+    failed_when: "result.rc == 1"
     tags:
       - scored
       - section1.4
       - section1.4.1
 
-  - name: 1.4.2 Set the SELinux State (Scored)
-    debug: msg="*** Change this to apparmor."
+  - name: 1.4.2 Set the AppArmor State (Scored)
+    command: update-rc.d apparmor start 37 S .
+    register: result
+    failed_when: "result.rc == 1"
     tags:
       - scored
       - section1.4
       - section1.4.2
 
-  - name: 1.4.3 Set the SELinux Policy (Scored)
-    debug: msg="*** Change this to apparmor."
-    ignore_errors: yes
+  - name: 1.4.3 Set the AppArmor Policy (Scored)
+    command: aa-enforce /etc/apparmor.d/*
+    register: result
+    failed_when: "result.rc == 1"
     tags:
       - scored
       - section1.4
       - section1.4.3
 
   - name: 1.4.4 Remove SETroubleshoot (Scored)
-    debug: msg="*** Change this to apparmor."
+    debug: msg="*** Not relevant."
     tags:
       - scored
       - section1.4
