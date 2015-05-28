@@ -17,10 +17,10 @@
 
   - name: 3.1 Set Daemon umask (Scored)
     lineinfile: >
-      dest=/etc/sysconfig/init
+      dest=/etc/login.defs
       state=present
-      regexp=^umask
-      line="umask 027"
+      regexp=^UMASK
+      line="UMASK 027"
     tags:
       - scored
       - section3.1
@@ -36,8 +36,8 @@
       - section3.2
 
   - name: 3.2 Remove X Windows (remove package group) (Scored)
-    yum: >
-      name=xorg-x11-server-common
+    apt: >
+      name=xserver-xorg-core
       state=absent
     tags:
       - scored
@@ -79,7 +79,7 @@
       - section3.4
 
   - name: 3.5 Remove DHCP Server (Scored)
-    yum: >
+    apt: >
       name=dhcp
       state=absent
     tags:
@@ -87,7 +87,7 @@
       - section3.5
 
   - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
-    yum: >
+    apt: >
       pkg=ntp
       state=installed    
     always_run: yes
@@ -108,8 +108,8 @@
     lineinfile: >
       dest=/etc/ntp.conf
       state=present
-      regexp="^restrict default"
-      line="restrict default kod nomodify notrap nopeer noquery"
+      regexp="^restrict -4 default"
+      line="restrict -4 default kod nomodify notrap nopeer noquery"
       insertafter=EOF
     tags:
       - scored
@@ -127,7 +127,7 @@
       - section3.6
 
   - name: 3.7 Remove LDAP (Not Scored)
-    yum: >
+    apt: >
       name=openldap-clients
       state=absent
     when: ldap_client
@@ -136,7 +136,7 @@
       - section3.7
 
   - name: 3.7 Remove LDAP (Not Scored)
-    yum: >
+    apt: >
       name=openldap-servers
       state=absent
     when: ldap_server
@@ -145,7 +145,7 @@
       - section3.7
 
   - name: 3.8 Disable NFS and RPC (check for nfs-utils) (Not Scored)
-    stat: path=/etc/init.d/nfslock
+    stat: path=/etc/init.d/nfs-kernel-server
     register: nfs_utils
     tags:
       - notscored
@@ -158,7 +158,7 @@
       - notscored
       - section3.8
 
-  - name: 3.8 Disable NFS and RPC (nfs-utils services) (Not Scored)
+  - name: 3.8 Disable NFS and RPC (nfs-kernel-server services) (Not Scored)
     service: >
       name={{ item }}
       state=stopped
@@ -186,7 +186,7 @@
       - section3.8
 
   - name: 3.9 Remove DNS Server (Not Scored)
-    yum: >
+    apt: >
       name=bind
       state=absent
     when: dns
@@ -195,7 +195,7 @@
       - section3.9
 
   - name: 3.10 Remove FTP Server (Not Scored)
-    yum: >
+    apt: >
       name=vsftpd
       state=absent
     when: ftp
@@ -204,7 +204,7 @@
       - section3.10
 
   - name: 3.11 Remove HTTP Server (Not Scored)
-    yum: >
+    apt: >
       name=httpd
       state=absent
     when: httpd
@@ -213,7 +213,7 @@
       - section3.11
 
   - name: 3.12 Remove Dovecot (IMAP and POP3 services) (Not Scored)
-    yum: >
+    apt: >
       name=dovecot
       state=absent
     when: dovecot
@@ -222,7 +222,7 @@
       - section3.12
 
   - name: 3.13 Remove Samba (Not Scored)
-    yum: >
+    apt: >
       name=samba
       state=absent
     when: samba
@@ -231,7 +231,7 @@
       - section3.13
 
   - name: 3.14 Remove HTTP Proxy Server (Not Scored)
-    yum: >
+    apt: >
       name=squid
       state=absent
     when: squid
@@ -240,7 +240,7 @@
       - section3.14
 
   - name: 3.15 Remove SNMP Server (Not Scored)
-    yum: >
+    apt: >
       name=net-snmp
       state=absent
     when: snmp
@@ -249,7 +249,7 @@
       - section3.15
 
   - name: 3.16 Configure Mail Transfer Agent for Local-Only Mode (Scored)
-    yum: >
+    apt: >
       name=postfix
       state=present
     tags:
