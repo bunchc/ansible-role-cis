@@ -258,12 +258,12 @@
       - section1.6
       - section1.6.1
       
-  - name: 1.6.2 Configure ExecShield (Scored)
-    sysctl: >
-      name=kernel.exec-shield
-      value=1
-      state=present
-      ignoreerrors=yes
+  - name: 1.6.2 Verify ExecShield (Scored)
+    command: dmesg | grep --color '[NX|DX]*protection'
+    with_items:
+      - active
+    register: dmesg
+    ignore_errors: true
     tags:
       - scored
       - section1.6
