@@ -16,8 +16,8 @@
 #
 
   - name: 6.1.1 Enable anacron Daemon (Scored)
-    yum: >
-      name=cronie-anacron
+    apt: >
+      name=anacron
       state=present
     tags:
       - scored
@@ -26,7 +26,7 @@
 
   - name: 6.1.2 Enable crond Daemon (Scored)
     service: >
-      name=crond
+      name=cron
       enabled=yes
       state=started
     tags:
@@ -357,17 +357,7 @@
       - section6.2.14
 
   - name: 6.3.1 Upgrade Password Hashing Algorithm to SHA-512 (Scored)
-    shell: 'authconfig --test | grep hashing'
-    register: password_hash_algorithm
-    always_run: yes
-    tags:
-      - scored
-      - section6.3
-      - section6.3.1
-
-  - name: 6.3.1 Upgrade Password Hashing Algorithm to SHA-512 (Scored)
-    shell: authconfig --passalgo=sha512 --update
-    when: '"sha512" not in password_hash_algorithm.stdout'
+    debug: msg="*** Not relevant"
     tags:
       - scored
       - section6.3
