@@ -25,16 +25,6 @@
       - scored
       - section3.1
 
-  - name: 3.2 Remove X Windows (runlevel 3) (Scored)
-    lineinfile: >
-      dest=/etc/inittab
-      state=present
-      regexp="^id:"
-      line="id:3:initdefault:"
-    tags:
-      - scored
-      - section3.2
-
   - name: 3.2 Remove X Windows (remove package group) (Scored)
     apt: >
       name=xserver-xorg-core
@@ -97,7 +87,7 @@
 
   - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
     service: >
-      name=ntpd
+      name=ntp
       state=started
       enabled=yes
     tags:
