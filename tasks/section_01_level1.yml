@@ -259,7 +259,7 @@
       - section1.6.1
       
   - name: 1.6.2 Verify ExecShield (Scored)
-    command: dmesg | grep --color '[NX|DX]*protection'
+    shell: dmesg | grep '[NX|DX]*protection'
     with_items:
       - active
     register: dmesg
