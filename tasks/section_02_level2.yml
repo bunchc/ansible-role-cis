@@ -16,7 +16,7 @@
 #
 
   - name: 2.1.11 Remove xinetd (Scored)
-    yum: >
+    apt: >
       name=xinetd
       state=absent
     tags:

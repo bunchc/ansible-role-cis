@@ -15,6 +15,15 @@
 #   limitations under the License.
 #
 
+  - name: 5.2.1 Configure Data Retention (Install auditd)
+    apt: >
+      name=auditd
+      state=present
+    tags:
+      - notscored
+      - section5.2
+      - section5.2.1
+
   - name: 5.2.1.1 Configure Data Retention (Not Scored)
     lineinfile: >
       state=present
@@ -93,10 +102,10 @@
   - name: 5.2.3 Enable Auditing for Processes That Start Prior to auditd (Scored)
     lineinfile: >
       state=present
-      dest=/etc/grub.conf
+      dest=/etc/default/grub
       backrefs=yes
-      regexp="(^\s*kernel.*)$(?<!audit=1)"
-      line="\1 audit=1"
+      regexp="^GRUB_CMDLINE_LINUX="
+      line="GRUB_CMDLINE_LINUX=\"audit=1\""
     tags:
       - scored
       - section5.2

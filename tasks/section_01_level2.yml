@@ -100,24 +100,13 @@
       - section1.1.24
 
   - name: 1.2.4 Check to see if rhnsd daemon is installed (Not Scored)
-    stat: path=/etc/init.d/rhnsd
-    register: rhnsd_service
-    when: ansible_distribution == "RedHat"
-    tags:
-      - notscored
-      - section1.2
-      - section1.2.4
+    debug: msg="*** Not relevant."
 
   - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
-    action: command /sbin/chkconfig rhnsd off
-    when: ansible_distribution == "RedHat"
-    tags:
-      - notscored
-      - section1.2
-      - section1.2.4
+    debug: msg="*** Not relevant."
 
   - name: 1.3.1 Install AIDE (Scored)
-    yum: >
+    apt: >
       name=aide
       state=present
     when: configure_aide
@@ -128,7 +117,7 @@
 
   - name: 1.3.1 Install AIDE (Initialize AIDE) (Scored)
     command: >
-      /usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz' 
+      /usr/bin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz' 
       creates=/var/lib/aide/aide.db.gz
     when: configure_aide
     tags:
@@ -171,56 +160,51 @@
       - section1.3
       - section1.3.2
 
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
-    lineinfile: >
-      state=absent
-      dest=/etc/grub.conf
-      line="selinux=0"
-    tags:
-      - scored
-      - section1.4
-      - section1.4.1
-
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
-    lineinfile: >
-      state=absent
-      dest=/etc/grub.conf
-      line="enforcing=0"
-    tags:
-      - scored
-      - section1.4
-      - section1.4.1
-
-  - name: 1.4.2 Set the SELinux State (Scored)
-    yum: >
-      name=selinux-policy-targeted
+  - name: 1.4.1 Enable AppArmor (Scored)
+    apt: >
+      name=apparmor-utils
       state=present
+    tags:
+      - scored
+      - section1.4
+      - section1.4.1
+
+  - name: 1.4.1 Enable AppArmor (Scored)
+    command: invoke-rc.d apparmor start
+    register: result
+    failed_when: "result.rc == 1"
+    tags:
+      - scored
+      - section1.4
+      - section1.4.1
+
+  - name: 1.4.2 Set the AppArmor State (Scored)
+    command: update-rc.d apparmor start 37 S .
+    register: result
+    failed_when: "result.rc == 1"
     tags:
       - scored
       - section1.4
       - section1.4.2
 
-  - name: 1.4.3 Set the SELinux Policy (Scored)
-    selinux: >
-      state=enforcing
-      policy=targeted
-    ignore_errors: yes
+  - name: 1.4.3 Set the AppArmor Policy (Scored)
+    command: aa-enforce /etc/apparmor.d/*
+    register: result
+    failed_when: "result.rc == 1"
     tags:
       - scored
       - section1.4
       - section1.4.3
 
   - name: 1.4.4 Remove SETroubleshoot (Scored)
-    yum: >
-      name=setroubleshoot
-      state=absent
+    debug: msg="*** Not relevant."
     tags:
       - scored
       - section1.4
       - section1.4.4
 
   - name: 1.4.5 Remove MCS Translation Service (mcstrans) (Scored)
-    yum: >
+    apt: >
       name=mcstrans
       state=absent
     tags:
