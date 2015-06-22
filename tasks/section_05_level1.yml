@@ -16,7 +16,7 @@
 #
 
   - name: 5.1.1 Install the rsyslog package (Scored)
-    yum: >
+    apt: >
       name=rsyslog
       state=present
     tags:
@@ -51,7 +51,7 @@
       path=/var/log/{{ item }}
       state=touch
       owner=root
-      group=wheel
+      group=sudo
       mode=0640
     with_items:
         - messages
