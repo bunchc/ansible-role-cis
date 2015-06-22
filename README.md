@@ -1,7 +1,7 @@
 CIS
 =========
 
-This role can be used to audit or remediate a host against the Center for Internet Security (CIS) security benchmarks.
+This role can be used to audit or remediate a host against the Center for Internet Security (CIS) security benchmarks. It is derived from the RHEL Ansible role from [here](https://github.com/major/ansible-role-cis).
 
 *Disclaimer: This project has no affiliation with CIS.  The role and its contents have not been reviewed or endorsed by CIS.*
 
@@ -31,6 +31,24 @@ Playbooks can utilize the CIS role without much effort:
       roles:
         - cis 
 
+If using both the RHEL and ubuntu roles, you may want to group hosts by OS. To do that:
+
+    - hosts: all
+      user: root
+      tasks:
+        - group_by: key=os_{{ ansible_distribution }}
+
+    - hosts: os_CentOS
+      user: root
+      roles:
+        - cis-centos
+
+    - hosts: os_Ubuntu
+      user: root
+      roles:
+        - cis-ubuntu
+
+
 The role is thoroughly tagged so that you can run certain sections or certain levels of checks:
 
     # Test only items from section 4
@@ -48,3 +66,4 @@ Author Information
 ------------------
 
 Major Hayden <major@mhtx.net>
+Cody Bunch <bunchc@gmail.com>
