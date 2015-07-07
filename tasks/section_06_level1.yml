@@ -156,9 +156,9 @@
 
   - name: 6.2.1 Set SSH Protocol to 2 (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^Protocol " line="Protocol 2"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -166,22 +166,22 @@
 
   - name: 6.2.2 Set LogLevel to INFO (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^LogLevel "
       line="LogLevel INFO"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
       - section6.2.2
 
-  - name: 6.2.3 Set Permissions on /etc/ssh/sshd_config (Scored)
+  - name: 6.2.3 Set Permissions on /etc/ssh/ssh_config (Scored)
     file: >
-      path=/etc/ssh/sshd_config
+      path=/etc/ssh/ssh_config
       owner=root
       group=root
       mode=0600
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -189,10 +189,10 @@
 
   - name: 6.2.4 Disable SSH X11 Forwarding (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^X11Forwarding "
       line="X11Forwarding no"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -200,10 +200,10 @@
 
   - name: 6.2.5 Set SSH MaxAuthTries to 4 or Less (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^MaxAuthTries "
       line="MaxAuthTries 4"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -211,10 +211,10 @@
 
   - name: 6.2.6 Set SSH IgnoreRhosts to Yes (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^IgnoreRhosts "
       line="IgnoreRhosts yes"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -222,10 +222,10 @@
 
   - name: 6.2.7 Set SSH HostbasedAuthentication to No (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^HostbasedAuthentication "
       line="HostbasedAuthentication no"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -233,10 +233,10 @@
 
   - name: 6.2.8 Disable SSH Root Login (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^PermitRootLogin "
       line="PermitRootLogin no"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -244,10 +244,10 @@
 
   - name: 6.2.9 Set SSH PermitEmptyPasswords to No (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^PermitEmptyPasswords "
       line="PermitEmptyPasswords no"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -255,10 +255,10 @@
 
   - name: 6.2.10 Do Not Allow Users to Set Environment Options (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^PermitUserEnvironment "
       line="PermitUserEnvironment no"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -266,10 +266,10 @@
 
   - name: 6.2.11 Use Only Approved Cipher in Counter Mode (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^Ciphers "
       line="Ciphers aes128-ctr,aes192-ctr,aes256-ctr"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -277,10 +277,10 @@
 
   - name: 6.2.12 Set Idle Timeout Interval for User Login (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^ClientAliveInterval "
       line="ClientAliveInterval 300"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -288,10 +288,10 @@
 
   - name: 6.2.12 Set Idle Timeout Interval for User Login (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^ClientAliveCountMax "
       line="ClientAliveCountMax 0"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -299,11 +299,11 @@
 
   - name: 6.2.13 Limit Access via SSH (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^AllowGroups "
       line="AllowGroups {{ ssh_allow_groups }}"
     when: ssh_allow_groups is defined
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -311,11 +311,11 @@
 
   - name: 6.2.13 Limit Access via SSH (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config 
+      dest=/etc/ssh/ssh_config 
       regexp="^AllowUsers "
       line="AllowUsers {{ ssh_allow_users }}"
     when: ssh_allow_users is defined
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -323,11 +323,11 @@
 
   - name: 6.2.13 Limit Access via SSH (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^DenyGroups "
       line="DenyGroups {{ ssh_deny_groups }}"
     when: ssh_deny_groups is defined
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -335,11 +335,11 @@
 
   - name: 6.2.13 Limit Access via SSH (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^DenyUsers "
       line="DenyUsers {{ ssh_deny_users }}"
     when: ssh_deny_users is defined
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
@@ -347,10 +347,10 @@
 
   - name: 6.2.14 Set SSH Banner (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config
+      dest=/etc/ssh/ssh_config
       regexp="^Banner "
       line="Banner /etc/issue.net"
-    notify: Reload sshd
+    notify: Reload ssh
     tags:
       - scored
       - section6.2
