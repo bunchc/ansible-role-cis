@@ -158,7 +158,7 @@
     lineinfile: >
       dest=/etc/ssh/ssh_config
       regexp="^Protocol " line="Protocol 2"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -169,7 +169,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^LogLevel "
       line="LogLevel INFO"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -181,7 +181,7 @@
       owner=root
       group=root
       mode=0600
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -192,7 +192,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^X11Forwarding "
       line="X11Forwarding no"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -203,7 +203,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^MaxAuthTries "
       line="MaxAuthTries 4"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -214,7 +214,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^IgnoreRhosts "
       line="IgnoreRhosts yes"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -225,7 +225,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^HostbasedAuthentication "
       line="HostbasedAuthentication no"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -236,7 +236,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^PermitRootLogin "
       line="PermitRootLogin no"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -247,7 +247,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^PermitEmptyPasswords "
       line="PermitEmptyPasswords no"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -258,7 +258,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^PermitUserEnvironment "
       line="PermitUserEnvironment no"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -269,7 +269,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^Ciphers "
       line="Ciphers aes128-ctr,aes192-ctr,aes256-ctr"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -280,7 +280,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^ClientAliveInterval "
       line="ClientAliveInterval 300"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -291,7 +291,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^ClientAliveCountMax "
       line="ClientAliveCountMax 0"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -303,7 +303,7 @@
       regexp="^AllowGroups "
       line="AllowGroups {{ ssh_allow_groups }}"
     when: ssh_allow_groups is defined
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -315,7 +315,7 @@
       regexp="^AllowUsers "
       line="AllowUsers {{ ssh_allow_users }}"
     when: ssh_allow_users is defined
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -327,7 +327,7 @@
       regexp="^DenyGroups "
       line="DenyGroups {{ ssh_deny_groups }}"
     when: ssh_deny_groups is defined
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -339,7 +339,7 @@
       regexp="^DenyUsers "
       line="DenyUsers {{ ssh_deny_users }}"
     when: ssh_deny_users is defined
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
@@ -350,7 +350,7 @@
       dest=/etc/ssh/ssh_config
       regexp="^Banner "
       line="Banner /etc/issue.net"
-    notify: Reload ssh
+    notify: Reload sshd
     tags:
       - scored
       - section6.2
